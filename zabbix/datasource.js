@@ -28,6 +28,9 @@ function (angular, _, kbn) {
 
       this.supportMetrics   = true;
       this.supportAnnotations = true;
+	  
+	  this.requestId = 0;
+	  
     }
 
 
@@ -56,12 +59,9 @@ function (angular, _, kbn) {
       from = Math.ceil(from/1000);
       to = Math.ceil(to/1000);
 
-           
-
       return this.performTimeSeriesQuery(target_items, from, to).then(function (response) {
 		  
-		  console.log(response);
-        /**
+		 /**
          * Response should be in the format:
          * data: [
          *          {
@@ -182,7 +182,7 @@ function (angular, _, kbn) {
               time_from: start,
           },
           auth: this.auth,
-          id: 1
+          id: ++this.requestId
     };
       
       // Relative queries (e.g. last hour) don't include an end time
@@ -207,7 +207,7 @@ function (angular, _, kbn) {
             password: this.password
           },
           auth: null,
-          id: 1
+          id: ++this.requestId
         },
       };
 
@@ -230,7 +230,7 @@ function (angular, _, kbn) {
           sortfield: 'name'
         },
         auth: this.auth,
-        id: 1
+        id: ++this.requestId
       };
 
       return this.doZabbixAPIRequest(data);
@@ -247,7 +247,7 @@ function (angular, _, kbn) {
           sortfield: 'name'
         },
         auth: this.auth,
-        id: 1
+        id: ++this.requestId
       };
       if (groupid) {
         data.params.groupids = groupid;
@@ -268,7 +268,7 @@ function (angular, _, kbn) {
           hostids: hostid
         },
         auth: this.auth,
-        id: 1
+        id: ++this.requestId
       };
 
       return this.doZabbixAPIRequest(data);
@@ -286,7 +286,7 @@ function (angular, _, kbn) {
           hostids: hostid
         },
         auth: this.auth,
-        id: 1
+        id: ++this.requestId
       };
       // If application selected return only relative items
       if (applicationid) {
@@ -316,7 +316,7 @@ function (angular, _, kbn) {
               limit: self.limitmetrics,
           },
           auth: self.auth,
-          id: 1
+          id: ++self.requestId
         },
       };
 
@@ -339,7 +339,7 @@ function (angular, _, kbn) {
                 limit: self.limitmetrics,
             },
             auth: self.auth,
-            id: 1
+            id: ++self.requestId
           },
         };
 
